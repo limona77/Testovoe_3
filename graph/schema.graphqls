@@ -1,0 +1,70 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+
+# Основные типы данных для постов и комментариев
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  comments: [Comment!]!
+  allowComments: Boolean!
+}
+
+type Comment {
+  id: ID!
+  postId: ID!
+  parentId: ID
+  author: String!
+  content: String!
+  replies: [Comment!]!
+}
+
+# Типы для пагинации
+type CommentPage {
+  comments: [Comment!]!
+  pageInfo: PageInfo!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  endCursor: String
+}
+
+# Входные данные для создания и обновления постов и комментариев
+input CreatePostInput {
+  title: String!
+  content: String!
+  allowComments: Boolean!
+}
+
+input UpdatePostInput {
+  id: ID!
+  title: String
+  content: String
+  allowComments: Boolean
+}
+
+input CreateCommentInput {
+  postId: ID!
+  parentId: ID
+  author: String!
+  content: String!
+}
+
+# Основные операции (запросы и мутации)
+type Query {
+  posts: [Post!]!
+  post(id: ID!): Post
+  comments(postId: ID!, cursor: String, limit: Int): CommentPage!
+}
+
+type Mutation {
+  createPost(input: CreatePostInput!): Post!
+  updatePost(input: UpdatePostInput!): Post!
+  deletePost(id: ID!): Boolean!
+
+  createComment(input: CreateCommentInput!): Comment!
+  deleteComment(id: ID!): Boolean!
+}
