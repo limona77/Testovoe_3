@@ -21,16 +21,6 @@ type Comment {
   replies: [Comment!]!
 }
 
-# Типы для пагинации
-type CommentPage {
-  comments: [Comment!]!
-  pageInfo: PageInfo!
-}
-
-type PageInfo {
-  hasNextPage: Boolean!
-  endCursor: String
-}
 
 # Входные данные для создания и обновления постов и комментариев
 input CreatePostInput {
@@ -57,7 +47,7 @@ input CreateCommentInput {
 type Query {
   posts: [Post!]!
   post(id: ID!): Post
-  comments(postId: ID!, cursor: String, limit: Int): CommentPage!
+  comments(postId: ID!, cursor: Int, limit: Int): [Comment]!
 }
 
 type Mutation {

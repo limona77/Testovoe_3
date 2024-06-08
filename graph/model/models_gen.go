@@ -11,11 +11,6 @@ type Comment struct {
 	Replies  []*Comment `json:"replies"`
 }
 
-type CommentPage struct {
-	Comments []*Comment `json:"comments"`
-	PageInfo *PageInfo  `json:"pageInfo"`
-}
-
 type CreateCommentInput struct {
 	PostID   string  `json:"postId"`
 	ParentID *string `json:"parentId,omitempty"`
@@ -30,11 +25,6 @@ type CreatePostInput struct {
 }
 
 type Mutation struct {
-}
-
-type PageInfo struct {
-	HasNextPage bool    `json:"hasNextPage"`
-	EndCursor   *string `json:"endCursor,omitempty"`
 }
 
 type Post struct {

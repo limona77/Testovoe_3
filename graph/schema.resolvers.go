@@ -8,7 +8,6 @@ import (
 	"Testovoe_3/database"
 	"Testovoe_3/graph/model"
 	"context"
-	"fmt"
 )
 
 var db = database.Connect()
@@ -25,32 +24,32 @@ func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePos
 
 // DeletePost is the resolver for the deletePost field.
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (bool, error) {
-	return db.DeletePost(ctx, id)
+	return db.DeleteComment(ctx, id)
 }
 
 // CreateComment is the resolver for the createComment field.
 func (r *mutationResolver) CreateComment(ctx context.Context, input model.CreateCommentInput) (*model.Comment, error) {
-	panic(fmt.Errorf("not implemented: CreateComment - createComment"))
+	return db.CreateComment(ctx, input)
 }
 
 // DeleteComment is the resolver for the deleteComment field.
 func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (bool, error) {
-	panic(fmt.Errorf("not implemented: DeleteComment - deleteComment"))
+	return db.DeleteComment(ctx, id)
 }
 
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
-	panic(fmt.Errorf("not implemented: Posts - posts"))
+	return db.GetPosts(ctx)
 }
 
 // Post is the resolver for the post field.
 func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error) {
-	panic(fmt.Errorf("not implemented: Post - post"))
+	return db.GetPost(ctx, id)
 }
 
 // Comments is the resolver for the comments field.
-func (r *queryResolver) Comments(ctx context.Context, postID string, cursor *string, limit *int) (*model.CommentPage, error) {
-	panic(fmt.Errorf("not implemented: Comments - comments"))
+func (r *queryResolver) Comments(ctx context.Context, postID string, cursor *int, limit *int) ([]*model.Comment, error) {
+	return db.GetComments(ctx, postID, cursor, limit)
 }
 
 // Mutation returns MutationResolver implementation.
