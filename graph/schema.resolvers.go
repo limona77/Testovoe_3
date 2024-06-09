@@ -7,49 +7,51 @@ package graph
 import (
 	"Testovoe_3/database"
 	"Testovoe_3/graph/model"
+	repositorytype "Testovoe_3/repository"
 	"context"
 )
 
 var db = database.Connect()
+var repo = repositorytype.Repository{db}
 
 // CreatePost is the resolver for the createPost field.
 func (r *mutationResolver) CreatePost(ctx context.Context, input model.CreatePostInput) (*model.Post, error) {
-	return db.CreatePost(ctx, input)
+	return repo.CreatePost(ctx, input)
 }
 
 // UpdatePost is the resolver for the updatePost field.
 func (r *mutationResolver) UpdatePost(ctx context.Context, input model.UpdatePostInput) (*model.Post, error) {
-	return db.UpdatePost(ctx, input)
+	return repo.UpdatePost(ctx, input)
 }
 
 // DeletePost is the resolver for the deletePost field.
 func (r *mutationResolver) DeletePost(ctx context.Context, id string) (bool, error) {
-	return db.DeleteComment(ctx, id)
+	return repo.DeletePost(ctx, id)
 }
 
 // CreateComment is the resolver for the createComment field.
 func (r *mutationResolver) CreateComment(ctx context.Context, input model.CreateCommentInput) (*model.Comment, error) {
-	return db.CreateComment(ctx, input)
+	return repo.CreateComment(ctx, input)
 }
 
 // DeleteComment is the resolver for the deleteComment field.
 func (r *mutationResolver) DeleteComment(ctx context.Context, id string) (bool, error) {
-	return db.DeleteComment(ctx, id)
+	return repo.DeleteComment(ctx, id)
 }
 
 // Posts is the resolver for the posts field.
 func (r *queryResolver) Posts(ctx context.Context) ([]*model.Post, error) {
-	return db.GetPosts(ctx)
+	return repo.GetPosts(ctx)
 }
 
 // Post is the resolver for the post field.
 func (r *queryResolver) Post(ctx context.Context, id string) (*model.Post, error) {
-	return db.GetPost(ctx, id)
+	return repo.GetPost(ctx, id)
 }
 
 // Comments is the resolver for the comments field.
 func (r *queryResolver) Comments(ctx context.Context, postID string, cursor *int, limit *int) ([]*model.Comment, error) {
-	return db.GetComments(ctx, postID, cursor, limit)
+	return repo.GetComments(ctx, postID, cursor, limit)
 }
 
 // Mutation returns MutationResolver implementation.
